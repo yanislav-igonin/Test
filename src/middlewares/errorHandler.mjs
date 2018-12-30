@@ -1,8 +1,8 @@
-const { logger } = require('../modules');
+import { logger } from '../modules';
 
 const env = process.env.NODE_ENV;
 
-module.exports = async (ctx, next) => {
+export default async (ctx, next) => {
   try {
     await next();
   } catch (err) {

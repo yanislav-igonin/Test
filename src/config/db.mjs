@@ -16,4 +16,4 @@ const config = {
   development,
 };
 
-module.exports = config[env];
+export default config[env];

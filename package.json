@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node src/index.js",
-    "dev": "NODE_ENV=development nodemon --inspect src/index.js",
-    "lint": "eslint ."
+    "dev": "NODE_ENV=development nodemon --inspect --experimental-modules src/index.mjs",
+    "lint": "eslint . --ext=mjs,js"
   },
   "repository": {
     "type": "git",
@@ -35,8 +34,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "eslint .",
-      "pre-push": "eslint ."
+      "pre-commit": "eslint . --ext=mjs,js",
+      "pre-push": "eslint . --ext=mjs,js"
     }
   }
 }

@@ -1,4 +1,4 @@
-const httpStatus = require('http-status');
+import httpStatus from 'http-status';
 
 class AppError extends Error {
   constructor(message, status, error) {
@@ -44,7 +44,7 @@ class HttpUnsupportedMediaTypeException extends AppError {
   }
 }
 
-module.exports = {
+export default {
   HttpBadRequestException,
   HttpNotFoundException,
   HttpPayloadTooLargeException,
