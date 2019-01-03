@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon --inspect --experimental-modules src/index.mjs",
+    "seed": "NODE_ENV=development node --experimental-modules src/db/seeds/index.mjs",
     "lint": "eslint . --ext=mjs,js"
   },
   "repository": {
@@ -30,6 +31,7 @@
     "eslint": "^5.11.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
+    "faker": "^4.1.0",
     "husky": "^1.2.1",
     "nodemon": "^1.18.9",
     "pino-pretty": "^2.5.0"
