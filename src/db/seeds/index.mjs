@@ -28,11 +28,11 @@ const seedImages = async conn => {
   await conn.query(preparedSqlStatement);
 };
 
-const seedBooks = async (conn, bookIndex) => {
+const seedBooks = async conn => {
   let sqlStatement =
     'INSERT INTO books(title, date, author, description, image) VALUES';
 
-  for (let i = bookIndex; i < app.seeds.books; i++) {
+  for (let i = 0; i < app.seeds.books / 5; i++) {
     let date = new Date();
     date =
       date.getUTCFullYear() +
@@ -41,15 +41,16 @@ const seedBooks = async (conn, bookIndex) => {
       '-' +
       ('00' + date.getUTCDate()).slice(-2);
 
-    sqlStatement += `\n("${faker.random.words()}", "${date}", ${i +
-      1}, "${faker.random.words()}", ${i + 1}),`;
+    sqlStatement += `\n("${faker.random.words()}", "${date}", ${Math.floor(
+      Math.random() * app.seeds.authors,
+    ) + 1}, "${faker.random.words()}", ${Math.floor(
+      Math.random() * app.seeds.images,
+    ) + 1}),`;
   }
 
   const preparedSqlStatement = sqlStatement.slice(0, -1);
 
   await conn.query(preparedSqlStatement);
-
-  return i;
 };
 
 connection().then(async conn => {
@@ -85,16 +86,19 @@ connection().then(async conn => {
     await seedAuthors(conn);
     logger.info('authors seeding completed');
 
-    // Double seeds for avoiding EPIPE error
+    // Multiple seeds for avoiding EPIPE error
     await seedImages(conn);
     await seedImages(conn);
     logger.info('images seeding completed');
 
-    let bookIndex = await seedBooks(conn, 0);
-    bookIndex = await seedBooks(conn, bookIndex);
-    bookIndex = await seedBooks(conn, bookIndex);
-    bookIndex = await seedBooks(conn, bookIndex);
+    // Multiple seeds for avoiding EPIPE error
+    await seedBooks(conn);
+    await seedBooks(conn);
+    await seedBooks(conn);
+    await seedBooks(conn);
+    await seedBooks(conn);
     logger.info('books seeding completed');
+    process.kill(process.pid, 'SIGTERM');
   } catch (err) {
     console.log(err);
 
