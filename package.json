@@ -31,7 +31,8 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
     "husky": "^1.2.1",
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.9",
+    "pino-pretty": "^2.5.0"
   },
   "husky": {
     "hooks": {
