@@ -1,6 +1,6 @@
 /* eslint-disable */
 import faker from 'faker';
-import connection from '../connection';
+import db from '../connection';
 import { logger } from '../../modules';
 import { app } from '../../config';
 
@@ -53,8 +53,8 @@ const seedBooks = async conn => {
   await conn.query(preparedSqlStatement);
 };
 
-connection().then(async conn => {
-  try {
+db.getConnection()
+  .then(async conn => {
     await conn.query(`
       CREATE TABLE IF NOT EXISTS authors (
         id INT NOT NULL AUTO_INCREMENT,
@@ -99,9 +99,10 @@ connection().then(async conn => {
     await seedBooks(conn);
     logger.info('books seeding completed');
     process.kill(process.pid, 'SIGTERM');
-  } catch (err) {
-    console.log(err);
+  })
+  .catch(err => {
+    logger.error('message:', err.message);
+    logger.error(err.stack);
 
     process.exit(1);
-  }
-});
+  });

@@ -2,14 +2,15 @@ import Koa from 'koa';
 import { app } from './config';
 import { logger } from './modules';
 import middlewares from './middlewares';
-import connection from './db';
+import db from './db';
 
 const server = new Koa();
 
 middlewares.forEach(middleware => server.use(middleware));
 logger.info('server - middlewares connection - success');
 
-connection()
+db
+  .getConnection()
   .then(() => {
     logger.info('database - online');
 
@@ -21,5 +22,5 @@ connection()
   .catch((err) => {
     logger.error('message:', err.message);
     logger.error(err.stack);
-    process.exit();
+    process.exit(1);
   });
