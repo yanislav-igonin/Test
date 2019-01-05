@@ -31,9 +31,7 @@ const seedBooks = async conn => {
 
     sql += `\n("${faker.random.words()}", "${date}", ${Math.floor(
       Math.random() * app.seeds.authors,
-    ) + 1}, "${faker.random.words()}", ${Math.floor(
-      Math.random() * app.seeds.images,
-    ) + 1}),`;
+    ) + 1}, "${faker.random.words()}", "${faker.image.image()}"),`;
   }
 
   const preparedSql = sql.slice(0, -1);
