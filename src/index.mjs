@@ -3,11 +3,15 @@ import { app } from './config';
 import { logger } from './modules';
 import middlewares from './middlewares';
 import db from './db';
+import routes from './components';
 
 const server = new Koa();
 
 middlewares.forEach(middleware => server.use(middleware));
 logger.info('server - middlewares connection - success');
+
+routes.forEach(route => server.use(route));
+logger.info('server - routes initialization - success');
 
 db
   .getConnection()
