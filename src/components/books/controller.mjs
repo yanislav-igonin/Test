@@ -6,7 +6,12 @@ const controller = {
 
     ctx.body = { data };
   },
-  // create: async (ctx) => {},
+
+  create: async (ctx) => {
+    const data = await dal.create(ctx.request.body);
+
+    ctx.body = { data };
+  },
   // update: async (ctx) => {},
 };
 

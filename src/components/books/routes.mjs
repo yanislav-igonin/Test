@@ -6,7 +6,7 @@ const router = new Router({
 });
 
 router.get('/', controller.list);
-// router.post('/', controller.create);
+router.post('/', controller.create);
 // router.put('/:bookId', controller.update);
 
 export default router.routes();
