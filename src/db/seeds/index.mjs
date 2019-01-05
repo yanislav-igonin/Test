@@ -5,31 +5,19 @@ import { logger } from '../../modules';
 import { app } from '../../config';
 
 const seedAuthors = async conn => {
-  let sqlStatement = 'INSERT INTO authors(first_name, last_name) VALUES';
+  let sql = 'INSERT INTO authors(first_name, last_name) VALUES';
 
   for (let i = 0; i < app.seeds.authors; i++) {
-    sqlStatement += `\n("${faker.name.firstName()}", "${faker.name.lastName()}"),`;
+    sql += `\n("${faker.name.firstName()}", "${faker.name.lastName()}"),`;
   }
 
-  const preparedSqlStatement = sqlStatement.slice(0, -1);
+  const preparedSql = sql.slice(0, -1);
 
-  await conn.query(preparedSqlStatement);
-};
-
-const seedImages = async conn => {
-  let sqlStatement = 'INSERT INTO images(url) VALUES';
-
-  for (let i = 0; i < app.seeds.authors / 2; i++) {
-    sqlStatement += `\n("${faker.image.image()}"),`;
-  }
-
-  const preparedSqlStatement = sqlStatement.slice(0, -1);
-
-  await conn.query(preparedSqlStatement);
+  await conn.query(preparedSql);
 };
 
 const seedBooks = async conn => {
-  let sqlStatement =
+  let sql =
     'INSERT INTO books(title, date, author, description, image) VALUES';
 
   for (let i = 0; i < app.seeds.books / 5; i++) {
@@ -41,16 +29,16 @@ const seedBooks = async conn => {
       '-' +
       ('00' + date.getUTCDate()).slice(-2);
 
-    sqlStatement += `\n("${faker.random.words()}", "${date}", ${Math.floor(
+    sql += `\n("${faker.random.words()}", "${date}", ${Math.floor(
       Math.random() * app.seeds.authors,
     ) + 1}, "${faker.random.words()}", ${Math.floor(
       Math.random() * app.seeds.images,
     ) + 1}),`;
   }
 
-  const preparedSqlStatement = sqlStatement.slice(0, -1);
+  const preparedSql = sql.slice(0, -1);
 
-  await conn.query(preparedSqlStatement);
+  await conn.query(preparedSql);
 };
 
 db.getConnection()
@@ -64,32 +52,19 @@ db.getConnection()
       )`);
 
     await conn.query(`
-      CREATE TABLE IF NOT EXISTS images (
-        id INT NOT NULL AUTO_INCREMENT,
-        url VARCHAR(255) NOT NULL,
-        PRIMARY KEY (id)
-      )`);
-
-    await conn.query(`
       CREATE TABLE IF NOT EXISTS books (
         id INT NOT NULL AUTO_INCREMENT,
         title VARCHAR(255) NOT NULL,
         date DATE NOT NULL,
         author INT NOT NULL,
         description VARCHAR(1000),
-        image INT NOT NULL,
+        image VARCHAR(300) NOT NULL,
         PRIMARY KEY (id),
-        FOREIGN KEY (author) REFERENCES authors(id),
-        FOREIGN KEY (image) REFERENCES images(id)
+        FOREIGN KEY (author) REFERENCES authors(id)
       )`);
 
     await seedAuthors(conn);
     logger.info('authors seeding completed');
-
-    // Multiple seeds for avoiding EPIPE error
-    await seedImages(conn);
-    await seedImages(conn);
-    logger.info('images seeding completed');
 
     // Multiple seeds for avoiding EPIPE error
     await seedBooks(conn);
