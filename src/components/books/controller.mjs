@@ -12,7 +12,12 @@ const controller = {
 
     ctx.body = { data };
   },
-  // update: async (ctx) => {},
+
+  update: async (ctx) => {
+    const data = await dal.update(ctx.params.bookId, ctx.request.body);
+
+    ctx.body = { data };
+  },
 };
 
 export default controller;
