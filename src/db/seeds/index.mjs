@@ -11,9 +11,9 @@ const seedAuthors = async conn => {
     sql += `\n("${faker.name.firstName()}", "${faker.name.lastName()}"),`;
   }
 
-  const preparedSql = sql.slice(0, -1);
+  sql = sql.slice(0, -1);
 
-  await conn.query(preparedSql);
+  await conn.query(sql);
 };
 
 const seedBooks = async conn => {
@@ -34,9 +34,9 @@ const seedBooks = async conn => {
     ) + 1}, "${faker.random.words()}", "${faker.image.image()}"),`;
   }
 
-  const preparedSql = sql.slice(0, -1);
+  sql = sql.slice(0, -1);
 
-  await conn.query(preparedSql);
+  await conn.query(sql);
 };
 
 db.getConnection()
