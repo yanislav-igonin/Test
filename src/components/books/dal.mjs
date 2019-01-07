@@ -2,7 +2,17 @@ import db from '../../db';
 
 const dal = {
   list: async (query) => {
-    let sql = 'SELECT * FROM books';
+    let sql = `
+      SELECT 
+        b.id, 
+        b.title, 
+        b.date, 
+        b.description, 
+        b.image, 
+        a.first_name AS author_first_name, 
+        a.last_name AS author_last_name 
+      FROM books AS b 
+      JOIN authors AS a ON b.author=a.id`;
     const values = [];
 
     if (query.limit) {
