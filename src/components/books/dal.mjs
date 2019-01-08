@@ -20,6 +20,8 @@ const dal = {
     // array will result in string escaping (e.g. ORDER BY 'id' 'asc').
     // This method isn't working, anyway, for me and mysql5.
     // Couldn't find better method for now.
+    // DB method escapeId() also did not work, it produces ORDER BY `id` `asc`
+    // that causes query syntax error.
     if (query.sort) {
       sql += ' ORDER BY ';
       query.sort.forEach((sortCriteria) => {
