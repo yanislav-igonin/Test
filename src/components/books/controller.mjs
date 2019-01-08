@@ -1,7 +1,17 @@
 import dal from './dal';
+import { validateListSortQuery } from './helpers';
+import { errors } from '../../modules';
 
 const controller = {
   list: async (ctx) => {
+    if (ctx.query.sort) {
+      const isSortQueryValid = validateListSortQuery(ctx.query);
+
+      if (!isSortQueryValid) {
+        throw new errors.HttpBadRequestException('Invalid sort query params');
+      }
+    }
+
     const data = await dal.list(ctx.query);
 
     ctx.body = { data };
