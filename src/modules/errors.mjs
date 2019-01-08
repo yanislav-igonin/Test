@@ -18,35 +18,6 @@ class HttpBadRequestException extends AppError {
   }
 }
 
-class HttpNotFoundException extends AppError {
-  constructor(message) {
-    super(message || 'Not found', httpStatus.NOT_FOUND, httpStatus[404]);
-  }
-}
-
-class HttpPayloadTooLargeException extends AppError {
-  constructor(message) {
-    super(
-      message || 'Payload Too Large',
-      httpStatus.REQUEST_ENTITY_TOO_LARGE,
-      httpStatus[413],
-    );
-  }
-}
-
-class HttpUnsupportedMediaTypeException extends AppError {
-  constructor(message) {
-    super(
-      message || 'Unsupported Media Type',
-      httpStatus.UNSUPPORTED_MEDIA_TYPE,
-      httpStatus[415],
-    );
-  }
-}
-
 export default {
   HttpBadRequestException,
-  HttpNotFoundException,
-  HttpPayloadTooLargeException,
-  HttpUnsupportedMediaTypeException,
 };
