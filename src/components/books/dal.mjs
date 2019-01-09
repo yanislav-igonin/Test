@@ -63,7 +63,21 @@ const dal = {
 
     const [result] = await db.query(sql, values);
 
-    const [data] = await db.query('SELECT * FROM books WHERE id=?', result.insertId);
+    const [data] = await db.query(
+      `
+      SELECT 
+        b.id, 
+        b.title, 
+        b.date, 
+        b.description, 
+        b.image, 
+        a.first_name AS author_first_name, 
+        a.last_name AS author_last_name 
+      FROM books AS b
+      JOIN authors AS a ON b.author=a.id
+      WHERE b.id=?`,
+      result.insertId,
+    );
 
     return data[0];
   },
@@ -99,7 +113,21 @@ const dal = {
 
     await db.query(sql, values);
 
-    const [data] = await db.query('SELECT * FROM books WHERE id=?', id);
+    const [data] = await db.query(
+      `
+      SELECT 
+        b.id, 
+        b.title, 
+        b.date, 
+        b.description, 
+        b.image, 
+        a.first_name AS author_first_name, 
+        a.last_name AS author_last_name 
+      FROM books AS b
+      JOIN authors AS a ON b.author=a.id
+      WHERE b.id=?`,
+      id,
+    );
 
     return data[0];
   },
