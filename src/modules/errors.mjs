@@ -18,6 +18,17 @@ class HttpBadRequestException extends AppError {
   }
 }
 
+class HttpUnprocessableEntity extends AppError {
+  constructor(message) {
+    super(
+      message || 'Unprocessable entity',
+      httpStatus.UNPROCESSABLE_ENTITY,
+      httpStatus[422],
+    );
+  }
+}
+
 export default {
   HttpBadRequestException,
+  HttpUnprocessableEntity,
 };
