@@ -17,6 +17,10 @@ const controller = {
   },
 
   create: async (ctx) => {
+    if (Object.keys(ctx.request.body).length === 0) {
+      throw new errors.HttpBadRequestException('Request body must not be empty');
+    }
+
     const validator = joi.validate(ctx.request.body, bodySchema);
 
     if (validator.error) {
@@ -30,6 +34,10 @@ const controller = {
   },
 
   update: async (ctx) => {
+    if (Object.keys(ctx.request.body).length === 0) {
+      throw new errors.HttpBadRequestException('Request body must not be empty');
+    }
+
     const validator = joi.validate(ctx.request.body, bodySchema);
 
     if (validator.error) {
