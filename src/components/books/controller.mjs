@@ -1,7 +1,7 @@
 import joi from 'joi';
 import dal from './dal';
 import { querySchema, bodySchema } from './schemas';
-import { errors } from '../../modules';
+import { errors, cache } from '../../modules';
 
 const controller = {
   list: async (ctx) => {
@@ -11,7 +11,7 @@ const controller = {
       throw new errors.HttpBadRequestException(validator.error.message);
     }
 
-    const data = await dal.list(ctx.query);
+    const data = await cache.get(ctx.originalUrl, () => dal.list(ctx.query));
 
     ctx.body = { data };
   },
