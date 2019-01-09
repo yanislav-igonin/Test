@@ -25,6 +25,7 @@ const controller = {
 
     const data = await dal.create(ctx.request.body);
 
+    ctx.status = 201;
     ctx.body = { data };
   },
 
