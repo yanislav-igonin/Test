@@ -23,4 +23,19 @@ const validateListSortQuery = (query) => {
 
 const validateCreateBody = () => true;
 
-export { validateListSortQuery, validateCreateBody };
+const sortDirectionIdentifier = (direction) => {
+  if (!direction) return '';
+
+  const capitalizedDirection = direction.toUpperCase();
+
+  switch (capitalizedDirection) {
+    case 'ASC':
+      return 'ASC';
+    case 'DESC':
+      return 'DESC';
+    default:
+      return '';
+  }
+};
+
+export { validateListSortQuery, validateCreateBody, sortDirectionIdentifier };
