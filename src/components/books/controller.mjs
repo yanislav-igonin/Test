@@ -1,15 +1,14 @@
+import joi from 'joi';
 import dal from './dal';
-import { validateListSortQuery } from './helpers';
+import { querySchema } from './schemas';
 import { errors } from '../../modules';
 
 const controller = {
   list: async (ctx) => {
-    if (ctx.query.sort) {
-      const isSortQueryValid = validateListSortQuery(ctx.query);
+    const validator = joi.validate(ctx.query, querySchema);
 
-      if (!isSortQueryValid) {
-        throw new errors.HttpBadRequestException('Invalid sort query params');
-      }
+    if (validator.error) {
+      throw new errors.HttpBadRequestException(validator.error.message);
     }
 
     const data = await dal.list(ctx.query);
