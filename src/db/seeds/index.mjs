@@ -17,8 +17,7 @@ const seedAuthors = async conn => {
 };
 
 const seedBooks = async conn => {
-  let sql =
-    'INSERT INTO books(title, date, author, description, image) VALUES';
+  let sql = 'INSERT INTO books(title, date, author, description, image) VALUES';
 
   for (let i = 0; i < app.seeds.books / 5; i++) {
     let date = new Date();
